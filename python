@@ -1,0 +1,80 @@
+import openpyxl
+from openpyxl import Workbook
+
+wb = openpyxl.load_workbook('2017m.xlsx')
+sheet = wb.worksheets[0]
+
+wb2 = openpyxl.load_workbook('1.xlsx')
+sheet2 = wb2.worksheets[0]
+
+last_names = []
+first_names = []
+
+def iter_rows(ws,n):  #produce the list of items in the particular row
+        for row in ws.iter_rows(n):
+            yield [cell.value for cell in row]
+
+def remove_spaces(cell):
+    """Removes the spaces from a cell"""
+    if cell.value != None:
+        arr = [str(r) for r in cell.value]
+        arr[:] = [item for item in arr if item != ' ']
+        full_value = ''.join(map(str, arr))
+        return full_value
+
+for i in range(2, sheet2.max_row):
+    if sheet2.cell(row=i, column=2).value != None:
+        last_names.append(remove_spaces(sheet2.cell(row=i, column=2)))
+        first_names.append(remove_spaces(sheet2.cell(row=i, column=3)))
+
+
+def remove_sp(word):
+    return ''.join(map(str, [item for item in word if item != ' ']))
+
+first_names = [x.lower() for x in first_names]
+last_names = [x.lower() for x in last_names]
+
+# print(first_names)
+# print(repr(last_names[3]))
+
+# print(repr(remove_spaces(sheet.cell(row=10, column=24)).lower()))
+
+wb3=Workbook()
+newsheet = wb3.active
+
+sdata = []
+def main():
+
+    names = []
+    for i in range(1, sheet.max_row+1):
+    # print(repr(remove_spaces(sheet.cell(row=i, column=24)).lower()))
+        # print(repr(sheet.cell(row=i, column=24).value))
+        print(sheet.cell(row=i, column=24).value, sheet.cell(row=i, column=25).value)
+        if sheet.cell(row=i, column=24).value != None or sheet.cell(row=i, column=25).value != None:
+        
+            l_cell = remove_spaces(sheet.cell(row=i, column=24)).lower()
+            f_cell = remove_spaces(sheet.cell(row=i, column=25)).lower()
+            for l, f in zip(last_names, first_names):
+                if l_cell == remove_sp(l) and f_cell == remove_sp(f):
+                    list_to_append = []
+                    for c in range(1, sheet.max_column):
+
+                        list_to_append.append(sheet.cell(row=i, column=c).value)
+
+                    sdata.append(list(list_to_append))
+
+    for cell in sdata:
+        newsheet.append(cell)
+
+
+
+
+
+    print(sdata)
+    wb3.save("studentdata.xlsx")
+
+main()
+#     for l, f in zip(last_names, first_names):
+#         if remove_spaces(sheet.cell(row=i, column=24)).lower() == l.lower() and remove_spaces(sheet.cell(row=i, column=25)).lower() == f.lower():
+# #            print(sheet.cell(row=i, column=27).value)
+#             pass
