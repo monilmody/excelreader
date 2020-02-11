@@ -1,10 +1,10 @@
 import openpyxl
 from openpyxl import Workbook
 
-wb = openpyxl.load_workbook('2017m.xlsx')
+wb = openpyxl.load_workbook('number1.xlsx')
 sheet = wb.worksheets[0]
 
-wb2 = openpyxl.load_workbook('1.xlsx')
+wb2 = openpyxl.load_workbook('number2.xlsx')
 sheet2 = wb2.worksheets[0]
 
 last_names = []
@@ -71,10 +71,11 @@ def main():
 
 
     print(sdata)
-    wb3.save("studentdata.xlsx")
+    wb3.save("themainfile.xlsx")
 
 main()
-#     for l, f in zip(last_names, first_names):
-#         if remove_spaces(sheet.cell(row=i, column=24)).lower() == l.lower() and remove_spaces(sheet.cell(row=i, column=25)).lower() == f.lower():
-# #            print(sheet.cell(row=i, column=27).value)
-#             pass
+     for l, f in zip(last_names, first_names):
+     #For example, if you want to use a perticular column or a row you need to select it and write it down in the codes like this: 
+     if remove_spaces(sheet.cell(row=i, column=24)).lower() == l.lower() and remove_spaces(sheet.cell(row=i, column=25)).lower() == f.lower():
+     print(sheet.cell(row=i, column=27).value)
+             pass
